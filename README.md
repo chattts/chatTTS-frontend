@@ -1,4 +1,6 @@
 # twitch-cheatreader-vue
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsmall-sunshines%2Ftwitch-cheatreader-vue.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsmall-sunshines%2Ftwitch-cheatreader-vue?ref=badge_shield)
+
 
 > My wicked Nuxt.js project
 
@@ -20,3 +22,7 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsmall-sunshines%2Ftwitch-cheatreader-vue.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsmall-sunshines%2Ftwitch-cheatreader-vue?ref=badge_large)
