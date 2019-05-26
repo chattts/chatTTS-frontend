@@ -65,6 +65,7 @@ const config: NuxtConfiguration = {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     'nuxt-buefy',
+    'nuxt-rfg-icon'
   ],
   /*
   ** Axios module configuration
