@@ -1,10 +1,10 @@
 {
-  "name": "twitch-cheatreader-vue",
+  "name": "twitch-chatreader-vue",
   "version": "1.0.0",
-  "description": "My wicked Nuxt.js project",
+  "description": "",
   "author": "small_sunshine",
   "private": true,
-  "license": "AGPL-3.0",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
