@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@nuxt/typescript": "^2.7.1",
+    "@types/minimist": "^1.2.0",
     "lazy-get-decorator": "^2.2.0",
     "node-sass": "^4.12.0",
     "nodemon": "^1.18.9",

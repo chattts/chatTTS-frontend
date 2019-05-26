@@ -1,5 +1,5 @@
-import parseArgs from "minimist";
-import NuxtConfiguration from '@nuxt/config'
+import parseArgs from "minimist"
+import NuxtConfiguration from "@nuxt/config"
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -21,10 +21,14 @@ const host =
   process.env.npm_package_config_nuxt_host ||
   "localhost"
 
-const pkg = require('./package')
+const pkg = require("./package")
 
 const config: NuxtConfiguration = {
-  mode: 'spa',
+  env: {
+    twitch_id: process.env.twitch_id!,
+    callback_uri: process.env.callback_uri!,
+  },
+  mode: "spa",
 
   /*
   ** Headers of the page
@@ -32,19 +36,25 @@ const config: NuxtConfiguration = {
   head: {
     title: pkg.name,
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
+    ],
+    script: [
+      {
+        src: "https://cdn.rawgit.com/Lastorder-DC/tapic/5.0.2.2/dist/tapic.min.js",
+        type: "text/javascript"
+      },
+    ],
   },
 
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: "#fff" },
 
   /*
   ** Global CSS
@@ -62,10 +72,10 @@ const config: NuxtConfiguration = {
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/dotenv',
-    'nuxt-buefy',
-    'nuxt-rfg-icon'
+    "@nuxtjs/axios",
+    "@nuxtjs/dotenv",
+    "nuxt-buefy",
+    "nuxt-rfg-icon"
   ],
   /*
   ** Axios module configuration
