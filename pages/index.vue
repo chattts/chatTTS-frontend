@@ -1,30 +1,19 @@
 <template lang="pug">
-  section.section
-    .columns.is-mobile
-      card(title='Free', icon='github-circle')
-        | Open source on 
-        a(href='https://github.com/buefy/buefy')  GitHub
-      card(title='Responsive', icon='cellphone-link')
-        b.has-text-grey Every
-        |  component is responsive
-      card(title='Modern', icon='alert-decagram')
-        | Built with 
-        a(href='https://vuejs.org/') Vue.js
-        |  and 
-        a(href='http://bulma.io/') Bulma
-      card(title='Lightweight', icon='arrange-bring-to-front')
-        | No other internal dependency
+  section.section.content
+    h1 TEST
+    br
+    p ASDFASDFASDF
+    p 레이아웃 만드는중
+    p 레이아웃 어떻게 만들어야되지 진짜..
 </template>
 
 <script lang="ts">
-  import Card from '~/components/Card.vue'
   import { Component, Inject, Model, Prop, Vue, Watch, Provide } from 'nuxt-property-decorator'
 
   @Component({
     components: {
-      Card
-    },
-    name: 'HomePage'
+      
+    }
   })
   export default class Index extends Vue {
 

@@ -1,4 +1,25 @@
+import parseArgs from "minimist";
 import NuxtConfiguration from '@nuxt/config'
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    H: "hostname",
+    p: "port"
+  },
+  string: ["H"],
+  unknown: parameter => false
+})
+
+const port =
+  argv.port ||
+  process.env.PORT ||
+  process.env.npm_package_config_nuxt_port ||
+  "3000"
+const host =
+  argv.hostname ||
+  process.env.HOST ||
+  process.env.npm_package_config_nuxt_host ||
+  "localhost"
 
 const pkg = require('./package')
 
@@ -41,16 +62,14 @@ const config: NuxtConfiguration = {
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // Doc: https://buefy.github.io/#/documentation
+    '@nuxtjs/dotenv',
     'nuxt-buefy',
   ],
   /*
   ** Axios module configuration
   */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
   },
 
   /*
