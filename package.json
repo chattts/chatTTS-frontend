@@ -4,6 +4,7 @@
   "description": "My wicked Nuxt.js project",
   "author": "small_sunshine",
   "private": true,
+  "license": "AGPL-3.0",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
