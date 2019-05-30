@@ -12425,13 +12425,7 @@ const config = {
         ],
         link: [
             { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
-        ],
-        script: [
-            {
-                src: "https://cdn.rawgit.com/Lastorder-DC/tapic/5.0.2.2/dist/tapic.min.js",
-                type: "text/javascript"
-            },
-        ],
+        ]
     },
     /*
     ** Customize the progress-bar color
@@ -12483,7 +12477,145 @@ exports.default = config;
 /*! exports provided: name, version, description, author, private, license, scripts, dependencies, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"twitch-chatreader-vue","version":"1.0.0","description":"","author":"small_sunshine","private":true,"license":"AGPL-3.0-or-later","scripts":{"start":"node -r dotenv/config build/main.js","build:client":"nuxt build","build:server":"backpack build","build:clean":"rimraf build dist .nuxt","build":"npm run build:clean && npm run build:server && npm run build:client","dev":"backpack dev -r dotenv/config","lint":"eslint --ext .ts,.js,.vue --ignore-path .gitignore .","lint:fix":"npm run lint -- --fix"},"dependencies":{"@fortawesome/fontawesome-svg-core":"^1.2.18","@fortawesome/free-brands-svg-icons":"^5.8.2","@fortawesome/free-solid-svg-icons":"^5.8.2","@fortawesome/vue-fontawesome":"^0.1.6","@nuxtjs/axios":"^5.3.6","@nuxtjs/dotenv":"^1.3.0","@nuxtjs/google-adsense":"^1.1.3","@nuxtjs/google-analytics":"^2.2.0","axios":"^0.18.0","cross-env":"^5.2.0","express":"^4.17.1","nuxt":"^2.4.0","nuxt-buefy":"^0.3.2","nuxt-class-component":"^1.3.0","nuxt-fontawesome":"^0.4.0","nuxt-property-decorator":"^2.1.3","nuxt-rfg-icon":"^0.6.3","passport":"^0.4.0","passport-twitch":"^1.0.3","tapic":"^5.0.2","ts-node":"^8.2.0","vue-cookies":"^1.5.13"},"devDependencies":{"@nuxt/typescript":"^2.7.1","@types/minimist":"^1.2.0","@typescript-eslint/eslint-plugin":"^1.9.0","backpack-core":"^0.8.3","eslint-config-standard":"12.0.0","eslint-plugin-import":"2.17.2","eslint-plugin-jest":"22.4.1","eslint-plugin-node":"8.0.1","eslint-plugin-prettier":"3.0.1","eslint-plugin-promise":"4.1.1","eslint-plugin-standard":"4.0.0","eslint-plugin-vue":"5.2.2","lazy-get-decorator":"^2.2.0","log4js":"^4.3.1","node-sass":"^4.12.0","nodemon":"^1.18.9","prettier":"1.17.0","pug":"^2.0.3","pug-plain-loader":"^1.0.0","rimraf":"^2.6.3","sass-loader":"^7.1.0","ts-loader":"^6.0.1"}};
+module.exports = {"name":"twitch-chatreader-vue","version":"1.0.0","description":"","author":"small_sunshine","private":true,"license":"AGPL-3.0-or-later","scripts":{"start":"node -r dotenv/config build/main.js","build:client":"nuxt build","build:server":"backpack build","build:clean":"rimraf build dist .nuxt","build":"npm run build:clean && npm run build:server && npm run build:client","dev":"backpack dev -r dotenv/config","lint":"eslint --ext .ts,.js,.vue --ignore-path .gitignore .","lint:fix":"npm run lint -- --fix"},"dependencies":{"@fortawesome/fontawesome-svg-core":"^1.2.18","@fortawesome/free-brands-svg-icons":"^5.8.2","@fortawesome/free-solid-svg-icons":"^5.8.2","@fortawesome/vue-fontawesome":"^0.1.6","@nuxtjs/axios":"^5.3.6","@nuxtjs/dotenv":"^1.3.0","@nuxtjs/google-adsense":"^1.1.3","@nuxtjs/google-analytics":"^2.2.0","axios":"^0.18.0","cross-env":"^5.2.0","express":"^4.17.1","express-session":"^1.16.1","jsonwebtoken":"^8.5.1","nuxt":"^2.4.0","nuxt-buefy":"^0.3.2","nuxt-class-component":"^1.3.0","nuxt-fontawesome":"^0.4.0","nuxt-property-decorator":"^2.1.3","nuxt-rfg-icon":"^0.6.3","passport":"^0.4.0","passport-twitch":"^1.0.3","tapic":"^5.0.2","ts-node":"^8.2.0","vue-cookies":"^1.5.13"},"devDependencies":{"@nuxt/typescript":"^2.7.1","@types/express-session":"^1.15.12","@types/jsonwebtoken":"^8.3.2","@types/minimist":"^1.2.0","@types/passport":"^1.0.0","@typescript-eslint/eslint-plugin":"^1.9.0","backpack-core":"^0.8.3","eslint-config-standard":"12.0.0","eslint-plugin-import":"2.17.2","eslint-plugin-jest":"22.4.1","eslint-plugin-node":"8.0.1","eslint-plugin-prettier":"3.0.1","eslint-plugin-promise":"4.1.1","eslint-plugin-standard":"4.0.0","eslint-plugin-vue":"5.2.2","lazy-get-decorator":"^2.2.0","log4js":"^4.3.1","node-sass":"^4.12.0","nodemon":"^1.18.9","prettier":"1.17.0","pug":"^2.0.3","pug-plain-loader":"^1.0.0","rimraf":"^2.6.3","sass-loader":"^7.1.0","ts-loader":"^6.0.1"}};
+
+/***/ }),
+
+/***/ "./server/api/index.ts":
+/*!*****************************!*\
+  !*** ./server/api/index.ts ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var jwt_1 = __webpack_require__(/*! ./jwt */ "./server/api/jwt.ts");
+exports.JWT = jwt_1.default;
+var sessToken_1 = __webpack_require__(/*! ./sessToken */ "./server/api/sessToken.ts");
+exports.sessToken = sessToken_1.default;
+
+
+/***/ }),
+
+/***/ "./server/api/jwt.ts":
+/*!***************************!*\
+  !*** ./server/api/jwt.ts ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const jwt = __importStar(__webpack_require__(/*! jsonwebtoken */ "jsonwebtoken"));
+class JWTBuilder {
+    constructor() {
+        this.issuer = process.env.jwt_issuer;
+        this.privkey = process.env.jwt_privkey;
+        this.subject = process.env.jwt_subject;
+        this.algorithm = 'HS384';
+        this.maxAge = process.env.jwt_maxAge;
+    }
+    createToken(payload) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const options = {
+                    algorithm: this.algorithm,
+                    expiresIn: this.maxAge,
+                    issuer: this.issuer,
+                    subject: this.subject
+                };
+                const result = yield this._createJWT(payload, this.privkey, options);
+                return result;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    verifyToken(token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const options = {
+                    algorithm: this.algorithm,
+                    issuer: this.issuer,
+                    subject: this.subject,
+                    maxAge: this.maxAge
+                };
+                const result = yield this._verifyJWT(token, this.privkey, options);
+                return result;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    _createJWT(payload, secret, options) {
+        return new Promise((resolve, reject) => {
+            jwt.sign(payload, secret, options, (error, token) => {
+                if (error)
+                    reject(error);
+                else
+                    resolve(token);
+            });
+        });
+    }
+    _verifyJWT(token, secret, options) {
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, secret, options, (error, decoded) => {
+                if (error)
+                    reject(error);
+                else
+                    resolve(decoded);
+            });
+        });
+    }
+}
+exports.default = new JWTBuilder();
+
+
+/***/ }),
+
+/***/ "./server/api/sessToken.ts":
+/*!*********************************!*\
+  !*** ./server/api/sessToken.ts ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class sessToken {
+    static getToken(req) {
+        return req.cookie['authencation'];
+    }
+    static setToken(res, token) {
+        res.cookie('authencation', token, {
+            httpOnly: true,
+            maxAge: 604800
+        });
+    }
+}
+exports.default = sessToken;
+
 
 /***/ }),
 
@@ -12499,14 +12631,23 @@ module.exports = {"name":"twitch-chatreader-vue","version":"1.0.0","description"
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const body_parser_1 = __importDefault(__webpack_require__(/*! body-parser */ "./node_modules/body-parser/index.js"));
 const compression_1 = __importDefault(__webpack_require__(/*! compression */ "./node_modules/compression/index.js"));
 const express_1 = __importDefault(__webpack_require__(/*! express */ "express"));
+const express_session_1 = __importDefault(__webpack_require__(/*! express-session */ "express-session"));
 const log4js_1 = __importDefault(__webpack_require__(/*! log4js */ "log4js"));
 const nuxt_1 = __webpack_require__(/*! nuxt */ "nuxt");
+const passport_1 = __importDefault(__webpack_require__(/*! passport */ "passport"));
 const nuxt_config_1 = __importDefault(__webpack_require__(/*! ../nuxt.config */ "./nuxt.config.ts"));
-const routes_1 = __importDefault(__webpack_require__(/*! ./routes */ "./server/routes.ts"));
+const routes = __importStar(__webpack_require__(/*! ./routes */ "./server/routes/index.ts"));
 // Initialize Logger
 const logger = log4js_1.default.getLogger();
 // Configure Nuxt client
@@ -12532,8 +12673,15 @@ if (nuxt_config_1.default.dev) {
 const app = express_1.default();
 app.use(compression_1.default());
 app.use(body_parser_1.default.json());
+app.use(express_session_1.default({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
 // Add server routing
-app.use(routes_1.default);
+app.use('/auth', routes.auth);
 app.use(nuxt.render);
 // Run the server
 const host = process.env.HOST || "0.0.0.0";
@@ -12546,10 +12694,75 @@ exports.default = app;
 
 /***/ }),
 
-/***/ "./server/routes.ts":
-/*!**************************!*\
-  !*** ./server/routes.ts ***!
-  \**************************/
+/***/ "./server/routes/auth.ts":
+/*!*******************************!*\
+  !*** ./server/routes/auth.ts ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __webpack_require__(/*! express */ "express");
+const passport_1 = __importDefault(__webpack_require__(/*! passport */ "passport"));
+const router = express_1.Router();
+const auth = __importStar(__webpack_require__(/*! ../strategy */ "./server/strategy/index.ts"));
+passport_1.default.serializeUser((user, done) => {
+    done(null, {});
+});
+passport_1.default.deserializeUser((user, done) => {
+    done(null, {});
+});
+// passport auth configure
+const configurePassport = (configure) => {
+    const { vendor, Strategy, strategyConfig } = configure;
+    const option = {
+        failureRedirect: '/auth/fail'
+    };
+    router.get(`/${vendor}`, passport_1.default.authenticate(vendor));
+    router.get(`/${vendor}/callback`, passport_1.default.authenticate(vendor, option), auth._generateToken);
+    passport_1.default.use(new Strategy(strategyConfig, auth._strategy(vendor)));
+};
+configurePassport(auth.twitch);
+exports.default = router;
+
+
+/***/ }),
+
+/***/ "./server/routes/index.ts":
+/*!********************************!*\
+  !*** ./server/routes/index.ts ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const auth_1 = __importDefault(__webpack_require__(/*! ./auth */ "./server/routes/auth.ts"));
+exports.auth = auth_1.default;
+
+
+/***/ }),
+
+/***/ "./server/strategy/_generateToken.ts":
+/*!*******************************************!*\
+  !*** ./server/strategy/_generateToken.ts ***!
+  \*******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12564,12 +12777,102 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __webpack_require__(/*! express */ "express");
-const router = express_1.Router();
-router.get("/api/random-data", (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    res.send({}).end();
-}));
-exports.default = router;
+const api_1 = __webpack_require__(/*! ../api */ "./server/api/index.ts");
+exports.default = (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const token = yield api_1.JWT.createToken(req.user); // create jwt token
+    api_1.sessToken.setToken(res, token);
+    res.redirect('/auth/success');
+});
+
+
+/***/ }),
+
+/***/ "./server/strategy/_strategy.ts":
+/*!**************************************!*\
+  !*** ./server/strategy/_strategy.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = (vendor) => {
+    return (req, accessToken, refreshToken, profile, done) => __awaiter(this, void 0, void 0, function* () {
+        let payload;
+        console.log(profile);
+        if (vendor === 'twitch') {
+            const { id, username, displayName } = profile;
+            payload = {
+                id,
+                username,
+                displayName,
+                profilePhoto: profile._json.logo
+            };
+        }
+        done(null, payload);
+    });
+};
+
+
+/***/ }),
+
+/***/ "./server/strategy/index.ts":
+/*!**********************************!*\
+  !*** ./server/strategy/index.ts ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// Util
+var _strategy_1 = __webpack_require__(/*! ./_strategy */ "./server/strategy/_strategy.ts");
+exports._strategy = _strategy_1.default;
+var _generateToken_1 = __webpack_require__(/*! ./_generateToken */ "./server/strategy/_generateToken.ts");
+exports._generateToken = _generateToken_1.default;
+// Vendor
+const twitch = __importStar(__webpack_require__(/*! ./twitch */ "./server/strategy/twitch.ts"));
+exports.twitch = twitch;
+
+
+/***/ }),
+
+/***/ "./server/strategy/twitch.ts":
+/*!***********************************!*\
+  !*** ./server/strategy/twitch.ts ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.vendor = 'twitch';
+exports.Strategy = __webpack_require__(/*! passport-twitch */ "passport-twitch").Strategy;
+exports.strategyConfig = {
+    clientID: process.env.twitch_id,
+    clientSecret: process.env.twitch_secret,
+    callbackURL: process.env.twitch_callback_uri,
+    scope: process.env.twitch_scope,
+    passReqToCallback: true
+};
 
 
 /***/ }),
@@ -12619,6 +12922,17 @@ module.exports = require("express");
 
 /***/ }),
 
+/***/ "express-session":
+/*!**********************************!*\
+  !*** external "express-session" ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("express-session");
+
+/***/ }),
+
 /***/ "fs":
 /*!*********************!*\
   !*** external "fs" ***!
@@ -12627,6 +12941,17 @@ module.exports = require("express");
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
+
+/***/ }),
+
+/***/ "jsonwebtoken":
+/*!*******************************!*\
+  !*** external "jsonwebtoken" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("jsonwebtoken");
 
 /***/ }),
 
@@ -12660,6 +12985,28 @@ module.exports = require("net");
 /***/ (function(module, exports) {
 
 module.exports = require("nuxt");
+
+/***/ }),
+
+/***/ "passport":
+/*!***************************!*\
+  !*** external "passport" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("passport");
+
+/***/ }),
+
+/***/ "passport-twitch":
+/*!**********************************!*\
+  !*** external "passport-twitch" ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("passport-twitch");
 
 /***/ }),
 

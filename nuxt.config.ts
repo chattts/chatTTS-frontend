@@ -43,13 +43,7 @@ const config: NuxtConfiguration = {
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
-    ],
-    script: [
-      {
-        src: "https://cdn.rawgit.com/Lastorder-DC/tapic/5.0.2.2/dist/tapic.min.js",
-        type: "text/javascript"
-      },
-    ],
+    ]
   },
 
   /*

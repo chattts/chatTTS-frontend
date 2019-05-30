@@ -1,11 +1,13 @@
 import bodyParser from "body-parser"
 import compression from "compression"
 import express from "express"
+import expressSession from "express-session"
 import log4js from "log4js"
 import { Builder, Nuxt } from "nuxt"
+import passport from "passport"
 
 import config from "../nuxt.config"
-import router from "./routes"
+import * as routes from "./routes"
 
 // Initialize Logger
 const logger = log4js.getLogger()
@@ -37,9 +39,17 @@ const app: express.Express = express()
 
 app.use(compression())
 app.use(bodyParser.json())
+app.use(expressSession({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Add server routing
-app.use(router)
+app.use('/auth', routes.auth)
+
 app.use(nuxt.render)
 
 // Run the server
