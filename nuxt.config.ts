@@ -21,6 +21,7 @@ const host =
   process.env.npm_package_config_nuxt_host ||
   "localhost"
 
+// tslint:disable-next-line: no-var-requires
 const pkg = require("./package")
 
 const config: NuxtConfiguration = {
@@ -66,6 +67,7 @@ const config: NuxtConfiguration = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    "~/plugins/vue-cookies.ts",
   ],
 
   /*
