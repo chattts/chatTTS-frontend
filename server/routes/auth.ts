@@ -1,9 +1,11 @@
 import { Router } from 'express'
 import passport from 'passport'
-
-const router = Router()
+import { LoginCheck, sessToken } from '../api'
+import { Error, Token } from '../api/LoginCheck';
 
 import * as auth from '../strategy'
+
+const router = Router()
 
 passport.serializeUser((user, done) => {
   done(null, {})
@@ -27,5 +29,27 @@ const configurePassport = (configure: { vendor: string, Strategy: any, strategyC
 }
 
 configurePassport(auth.twitch)
+
+router.get('/check', async (req, res) => {
+  try {
+    const token = await LoginCheck(sessToken.getToken(req))
+
+    if ((token as Error).status) {
+      res.status(400)
+        .json(token)
+        .end()
+
+      return
+    } else {
+      res.status(200)
+        .json(token as Token)
+        .end()
+
+      return
+    }
+  } catch(error) {
+    throw error
+  }
+})
 
 export default router

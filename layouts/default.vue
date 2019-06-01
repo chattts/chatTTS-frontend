@@ -28,6 +28,14 @@
     }
   })
   export default class Default extends Vue {
+    created() {
+      this.fetchOAuth()
+    }
+    fetchOAuth() {
+      if (this.$cookies.get('isLogin') == 'true') {
+        this.$store.dispatch('oauth/login')
+      }
+    }
   }
 </script>
 

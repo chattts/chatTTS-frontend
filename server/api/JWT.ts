@@ -1,9 +1,11 @@
 import * as jwt from 'jsonwebtoken'
 
-interface JWTToken {
+export interface JWTToken {
+  id: number,
   username: string,
+  displayName: string,
+  profilePhoto: string,
   vendor: string,
-  AccessToken: number,
   iat: number,
   exp: number,
   iss: string,

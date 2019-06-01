@@ -1,10 +1,13 @@
 import bodyParser from "body-parser"
+import cookieParser from "cookie-parser"
 import compression from "compression"
 import express from "express"
 import expressSession from "express-session"
 import log4js from "log4js"
 import { Builder, Nuxt } from "nuxt"
 import passport from "passport"
+
+import 'express-async-errors'
 
 import config from "../nuxt.config"
 import * as routes from "./routes"
@@ -39,6 +42,7 @@ const app: express.Express = express()
 
 app.use(compression())
 app.use(bodyParser.json())
+app.use(cookieParser())
 app.use(expressSession({
   secret: 'keyboard cat',
   resave: true,
