@@ -39,13 +39,13 @@
               role="button"
             )
               fa(:icon="['fas', 'user-circle']")
-              |  &nbsp; User
+              |  &nbsp; Loggeded at {{ getUser.displayName}}
               b-icon(icon="menu-down")
             b-dropdown-item(
               custom
               aria-role="menuitem"
             )
-              | Logged as  
+              | Logged as &nbsp;
               b
                 fa(
                   v-if="getUser.vendor == 'twitch'"

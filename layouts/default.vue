@@ -3,14 +3,14 @@
     Header
     .container#main
       .columns.is-vcentered
-        .is-4.section
+        .column.is-2.section
           aside.menu
             p.menu-label General
           ul.menu-list
             li
               a Dashboard
               a Customers
-        .is-6.is-mobile
+        .column.section.is-mobile
           Nuxt
     Footer
 </template>

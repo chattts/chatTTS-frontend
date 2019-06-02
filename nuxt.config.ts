@@ -83,7 +83,9 @@ const config: NuxtConfiguration = {
         }, {
           set: "@fortawesome/free-solid-svg-icons",
           icons: [
-            "faSignOutAlt", "faUserCircle"
+            "faSignOutAlt", "faUserCircle",
+            "faTools", "faAddressCard",
+            "faUsersCog", "faVideo"
           ]
         }
       ]
