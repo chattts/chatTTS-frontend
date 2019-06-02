@@ -31,7 +31,6 @@
             p test2
         .navbar-end(v-if="getUser.id")
           b-dropdown(
-            v-model="navigation"
             position="is-bottom-left"
             aria-role="menu"
           )
@@ -39,7 +38,8 @@
               slot="trigger"
               role="button"
             )
-              span menu
+              fa(:icon="['fas', 'user-circle']")
+              |  &nbsp; User
               b-icon(icon="menu-down")
             b-dropdown-item(
               custom
@@ -67,10 +67,27 @@
             )
               a.navbar-item(href="/auth/logout")
                 fa(:icon="['fas', 'sign-out-alt']")
-                span &nbsp; Logout!
+                | &nbsp; Logout!
         .navbar-end(v-else)
-          a.navbar-item(href="/auth/twitch")
-            p Twitch Login!
+          .navbar-end(v-if="getUser.id")
+          b-dropdown(
+            position="is-bottom-left"
+            aria-role="menu"
+          )
+            a.navbar-item.is-twitch(
+              slot="trigger"
+              role="button"
+            )
+              fa(:icon="['fas', 'user-circle']")
+              |  &nbsp; User
+              b-icon(icon="menu-down")
+            b-dropdown-item(
+              custom
+              aria-role="menuitem"
+            )
+              a.navbar-item(href="/auth/twitch")
+                fa(:icon="['fab', 'twitch']")
+                | &nbsp; Twitch Login
 
 </template>
 
