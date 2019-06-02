@@ -41,6 +41,7 @@
   import { Component, Inject, Model, Prop, Vue, Watch, Provide } from 'nuxt-property-decorator'
 
   import ChatBubble from '~/components/ChatBubble.vue'
+  import ChatData from '~/assets/class/chat'
 
   import { Toast } from 'buefy/dist/components/toast'
 
@@ -50,14 +51,7 @@
     }
   })
   export default class Chat extends Vue {
-    @Provide() chat: {
-      displayName: string|null,
-      username: string,
-      message: string,
-      emotes: string[]|null,
-      userType: string|null,
-      badges: {[key: string]: number}|null
-    }[] = []
+    @Provide() chat: ChatData[] = []
     @Provide() username: string|null = null
     @Provide() ws: WebSocket|null = null
 
@@ -86,7 +80,17 @@
           })
         }
         this.ws.onmessage = (event) => {
-          this.chat.push(JSON.parse(event.data))
+          const data = JSON.parse(event.data)
+
+          this.chat.push(new ChatData({
+            username: data.username,
+            displayName: data.displayName,
+            message: data.message,
+            emotes: data.emotes,
+            userType: data.userType,
+            badges: data.badges,
+            status: "wait"
+          }))
           const elem = this.$refs.chat as Element
 
           setTimeout(() => {

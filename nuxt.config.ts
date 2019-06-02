@@ -85,7 +85,13 @@ const config: NuxtConfiguration = {
           icons: [
             "faSignOutAlt", "faUserCircle",
             "faTools", "faAddressCard",
-            "faUsersCog", "faVideo"
+            "faUsersCog", "faVideo",
+            "faCheck", "faTimes"
+          ]
+        }, {
+          set: "@fortawesome/free-regular-svg-icons",
+          icons: [
+            "faClock"
           ]
         }
       ]
