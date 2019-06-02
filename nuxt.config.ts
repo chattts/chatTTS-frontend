@@ -71,7 +71,23 @@ const config: NuxtConfiguration = {
     "@nuxtjs/axios",
     "@nuxtjs/dotenv",
     "nuxt-buefy",
-    "nuxt-rfg-icon"
+    "nuxt-rfg-icon",
+    ['nuxt-fontawesome', {
+      component: 'fa',
+      imports: [
+        {
+          set: "@fortawesome/free-brands-svg-icons",
+          icons: [
+            "faTwitch", "faYoutube"
+          ]
+        }, {
+          set: "@fortawesome/free-solid-svg-icons",
+          icons: [
+            "faSignOutAlt"
+          ]
+        }
+      ]
+    }]
   ],
   /*
   ** Axios module configuration

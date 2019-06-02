@@ -1,6 +1,6 @@
 <template lang="pug">
   header
-    nav.navbar.header.has-shadow.is-info.is-twitch(
+    nav.navbar.header.has-shadow.is-primary.is-twitch(
       role="navigation"
       aria-label="main navigation"
     )
@@ -29,16 +29,69 @@
             p test
           a.navbar-item
             p test2
+        .navbar-end(v-if="getUser.id")
+          b-dropdown(
+            v-model="navigation"
+            position="is-bottom-left"
+            aria-role="menu"
+          )
+            a.navbar-item.is-twitch(
+              slot="trigger"
+              role="button"
+            )
+              span menu
+              b-icon(icon="menu-down")
+            b-dropdown-item(
+              custom
+              aria-role="menuitem"
+            )
+              | Logged as  
+              b
+                fa(
+                  v-if="getUser.vendor == 'twitch'"
+                  :icon="['fab', 'twitch']"
+                )
+                fa(
+                  v-if="getUser.vendor == 'youtube'"
+                  :icon="['fab', 'youtube']"
+                )
+                |  {{ getUser.displayName }}
+              figure.image(
+                v-if="getUser.profilePhoto"
+              )
+                img.is-rounded(:src="getUser.profilePhoto")
+            hr.dropdown-divider
+            b-dropdown-item(
+              has-link
+              aria-role="menuitem"
+            )
+              a.navbar-item(href="/auth/logout")
+                fa(:icon="['fas', 'sign-out-alt']")
+                span &nbsp; Logout!
+        .navbar-end(v-else)
+          a.navbar-item(href="/auth/twitch")
+            p Twitch Login!
+
 </template>
 
 <script lang="ts">
   import { Component, Inject, Model, Prop, Vue, Watch, Provide } from 'nuxt-property-decorator'
 
   @Component({
-
+    computed: {
+      getUser() {
+        return this.$store.getters['oauth/getUser']
+      }
+    }
   })
   export default class Header extends Vue {
-    @Provide() display: boolean = false    
+    @Provide() display: boolean = false
+
+    @Watch('getUser')
+    onUserChanged(val, oldVal) {
+      console.log('user changed')
+      console.log(val)
+    }
   }
 </script>
 

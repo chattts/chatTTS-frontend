@@ -7,24 +7,21 @@ export const state = (): {
   id: number|null,
   username: string|null,
   displayName: string|null,
-  profilePhoto: string|null
+  profilePhoto: string|null,
+  vendor: string|null
 } => {
   return {
     id: 0,
     username: "",
     displayName: "",
-    profilePhoto: ""
+    profilePhoto: "",
+    vendor: ""
   }
 }
 
 export const getters = {
   getUser(state) {
-    return {
-      id: state.id,
-      username: state.username,
-      displayName: state.displayName,
-      profilePhoto: state.profilePhoto
-    }
+    return state
   }
 }
 
@@ -33,10 +30,15 @@ export const mutations = {
     id: number|null,
     username: string|null,
     displayName: string|null,
-    profilePhoto: string|null
+    profilePhoto: string|null,
+    vendor: string|null
   } | undefined) {
     if (payload) {
-      state = payload
+      state.id = payload.id
+      state.username = payload.username
+      state.displayName = payload.displayName
+      state.profilePhoto = payload.profilePhoto
+      state.vendor = payload.vendor
     }
   }
 }
@@ -60,8 +62,9 @@ export const actions = {
       return context.commit("login", {
         id: (data.data as Token).id,
         username: (data.data as Token).username,
-        displayname: (data.data as Token).displayName,
-        profilePhoto: (data.data as Token).profilePhoto
+        displayName: (data.data as Token).displayName,
+        profilePhoto: (data.data as Token).profilePhoto,
+        vendor: (data.data as Token).vendor
       })
     }
   }

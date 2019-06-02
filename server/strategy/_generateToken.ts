@@ -5,5 +5,5 @@ export default async (req: any, res: any) => {
 
   sessToken.setToken(res, token)
 
-  res.redirect('/auth/success')
+  res.redirect('/')
 }

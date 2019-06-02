@@ -52,4 +52,22 @@ router.get('/check', async (req, res) => {
   }
 })
 
+router.get('/logout', async (req, res) => {
+  try {
+    const token = await LoginCheck(sessToken.getToken(req))
+
+    if ((token as Error).status === "Please log in") {
+      res.status(400)
+        .json(token)
+        .end()
+    } else {
+      res.clearCookie('authorization')
+      res.clearCookie('isLogin')
+
+      res.redirect(302, '/')
+    }
+  } catch (error) {
+    throw error
+  }
+})
 export default router

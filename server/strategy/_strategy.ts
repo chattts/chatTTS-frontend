@@ -9,7 +9,8 @@ export default (vendor: string) => {
         id,
         username,
         displayName,
-        profilePhoto: profile._json.logo
+        profilePhoto: profile._json.logo,
+        vendor
       }
     }
 
