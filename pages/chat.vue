@@ -19,6 +19,10 @@
               button.button.is-info(
                 @click="onConnectWithMyself"
               ) Connect Myself
+            .control
+              button.button.is-danger(
+                @click="onDisconnect"
+              ) Disconnect
     .columns
       .column(style="width:100%;")
         .box.has-background-light.chat
@@ -71,6 +75,7 @@
         console.log(`try to connect ${this.username}`)
         this.$cookies.set('twitch', this.username)
         this.ws = new WebSocket(process.env.wsURL!)
+        this.chat = []
 
         this.ws.onopen = (event) => {
           console.log('connect success')
@@ -84,7 +89,9 @@
           this.chat.push(JSON.parse(event.data))
           const elem = this.$refs.chat as Element
 
-          elem.scrollTop = elem.scrollHeight
+          setTimeout(() => {
+            elem.scrollTop = elem.scrollHeight
+          }, 80)
         }
         this.ws.onclose = (event) => {
           console.log('disconnected')
@@ -120,6 +127,18 @@
           message: 'please login',
           position: 'is-bottom-right',
           type: 'is-danger'
+        })
+      }
+    }
+
+    onDisconnect() {
+      if (this.ws) {
+        this.ws.close()
+      } else {
+        Toast.open({
+          message: 'is not connected with bots',
+          position: 'is-bottom-right',
+          type: 'is-warning'
         })
       }
     }
