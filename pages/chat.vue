@@ -84,7 +84,7 @@
           this.chat.push(JSON.parse(event.data))
           const elem = this.$refs.chat as Element
 
-          elem.scrollTop = elem.scrollHeight + 20
+          elem.scrollTop = elem.scrollHeight
         }
         this.ws.onclose = (event) => {
           console.log('disconnected')

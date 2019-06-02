@@ -114,21 +114,47 @@
 
 <style lang="scss">
   $twitch: #6441A4;
+  $twitch-sub: #9a7fcc;
 
   .navbar.is-twitch {
-    background-color: $twitch;
+    background-color: $twitch !important;
   }
   .navbar-item img {
     border-radius: 5px;
   }
 
   @media screen and (min-width: 1088px) {
-    .navbar-item.is-twitch {
-      background-color: $twitch;
-      color: #fff;
+    .navbar.is-twitch {
+      .dropdown .dropdown-menu .navbar-item {
+        background-color: #fff !important;
+        color: #4a4a4a !important;
+      }
+
+      .navbar-item {
+        background-color: $twitch !important;
+        color: #fff !important;
+
+        &:hover {
+          background-color: $twitch-sub !important;
+          color: #fff;
+        }
+      }
     }
+
     .navbar-end {
       margin-right: 0.4em;
+    }
+  }
+
+  @media screen and (max-width: 1087px) {
+    .navbar.is-twitch {
+      .dropdown .dropdown-menu .navbar-item:hover {
+        color: #4a4a4a !important;
+      }
+
+      .navbar-item:hover {
+        color: $twitch !important;
+      }
     }
   }
 </style>
