@@ -4,5 +4,6 @@ export { default as _generateToken } from './_generateToken'
 
 // Vendor
 import * as twitch from './twitch'
+import * as google from './google'
 
-export { twitch }
+export { twitch, google }

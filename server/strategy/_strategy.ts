@@ -12,6 +12,17 @@ export default (vendor: string) => {
         profilePhoto: profile._json.logo,
         vendor
       }
+    } else if (vendor === 'google') {
+
+      const { id, displayName, picture } = profile 
+
+      payload = {
+        id,
+        username: displayName,
+        displayName,
+        profilePhoto: picture,
+        vendor
+      }
     }
 
     done(null, payload)

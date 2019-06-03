@@ -1,6 +1,8 @@
+import * as TwitchStrategy from 'passport-twitch'
+
 export let vendor = 'twitch'
 
-export let Strategy = require('passport-twitch').Strategy
+export let Strategy = TwitchStrategy.Strategy
 
 export let strategyConfig = {
   clientID: process.env.twitch_id!,

@@ -29,6 +29,7 @@ const configurePassport = (configure: { vendor: string, Strategy: any, strategyC
 }
 
 configurePassport(auth.twitch)
+configurePassport(auth.google)
 
 router.get('/check', async (req, res) => {
   try {
