@@ -14,6 +14,11 @@ User.init({
     allowNull: false,
     type: Sequelize.STRING(10),
     unique: false
+  },
+  isAdmin: {
+    allowNull: false,
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 }, {
   sequelize,

@@ -4,7 +4,7 @@ import sequelize from '../_mysql'
 class OAuth extends Sequelize.Model {}
 
 OAuth.init({
-  id: {
+  OAuthId: {
     type: Sequelize.STRING(128),
     allowNull: false,
     unique: false

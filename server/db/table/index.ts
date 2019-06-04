@@ -9,11 +9,11 @@ const tables = {
 }
 
 tables.User.hasMany(tables.OAuth, {
-  foreignKey: 'user_id'
+  foreignKey: 'userId'
 })
 
 tables.OAuth.belongsTo(tables.User, {
-  foreignKey: 'user_id'
+  foreignKey: 'userId'
 })
 
 mysql.sync()
