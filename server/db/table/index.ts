@@ -1,4 +1,4 @@
-import mysql from '../_mysql'
+import db from '../_mariadb'
 
 import user from './user'
 import oauth from './oauth'
@@ -16,6 +16,6 @@ tables.OAuth.belongsTo(tables.User, {
   foreignKey: 'userId'
 })
 
-mysql.sync()
+db.sync()
 
 export default tables

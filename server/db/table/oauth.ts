@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize'
-import sequelize from '../_mysql'
+import sequelize from '../_mariadb'
 
 class OAuth extends Sequelize.Model {}
 
@@ -18,6 +18,16 @@ OAuth.init({
     type: Sequelize.STRING(255),
     allowNull: false,
     unique: false,
+  },
+  profilePhoto: {
+    type: Sequelize.STRING(255),
+    allowNull: false,
+    unique: false
+  },
+  vendor: {
+    type: Sequelize.STRING(10),
+    allowNull: false,
+    unique: false
   }
 }, {
   sequelize,

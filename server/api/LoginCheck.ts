@@ -1,6 +1,4 @@
 import { JWT } from '../api'
-import { IncomingHttpHeaders } from 'http';
-
 import { JWTToken as Token } from './JWT'
 
 export { Token }

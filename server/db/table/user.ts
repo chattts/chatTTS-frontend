@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize'
-import sequelize from '../_mysql'
+import sequelize from '../_mariadb'
 
 class User extends Sequelize.Model {}
 
@@ -7,8 +7,9 @@ User.init({
   id: {
     allowNull: false,
     primaryKey: true,
-    type: Sequelize.UUIDV4,
+    type: Sequelize.UUID,
     unique: true,
+    defaultValue: Sequelize.UUIDV4
   },
   nickname: {
     allowNull: false,

@@ -1,11 +1,12 @@
 import { Sequelize } from "sequelize"
 
-const db = new Sequelize(process.env.mysql_host!,
+const db = new Sequelize(process.env.mysql_db!,
   process.env.mysql_user!,
   process.env.mysql_pw!,
   {
-    dialect: "mysql",
-    host: process.env.mysql_db!,
+
+    dialect: "mariadb",
+    host: process.env.mysql_host!,
     port: parseInt(process.env.mysql_port!),
     logging: false,
     pool: {
@@ -14,6 +15,10 @@ const db = new Sequelize(process.env.mysql_host!,
       max: 5,
       min: 0,
     },
+    dialectOptions: {
+      useUTC: false
+    },
+    timezone: '+09:00'
   })
 
 export default db

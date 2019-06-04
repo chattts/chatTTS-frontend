@@ -1,40 +1,29 @@
+// import redis from '../_redis'
 import table from '../table'
 
 const SUCCESS = true
 
 class User {
-  static async findById (id: string): Promise<any> {
+  static async findById (id: string): Promise<IUser> {
     const payload = {
       where: { id }
     }
     const user = await table.User.findOne(payload)
 
-    return (!!user) && user.toJSON()
+    return (!!user) && user.toJSON() as IUser
   }
 
-  static async findByNick (nickname: string): Promise<any> {
+  static async create (nickname: string ): Promise<IUser> {
     const payload = {
-      where: { nickname }
-    }
-    const user = await table.User.findOne(payload)
-
-    return (!!user) && user.toJSON()
-  }
-
-  static async register (user: { email: string, nickname: string }): Promise<boolean> {
-    const { email, nickname } = user
-
-    const payload = {
-      email,
       nickname
     }
 
-    await table.User.create(payload)
+    const data = await table.User.create(payload)
 
-    return SUCCESS
+    return data.toJSON() as IUser
   }
 
-  static async unregister (id: string): Promise<boolean> {
+  static async delete (id: string): Promise<boolean> {
     const payload = {
       where: { id }
     }
@@ -70,3 +59,11 @@ class User {
 }
 
 export default User
+
+export interface IUser {
+  id: string,
+  nickname: string,
+  isAdmin: boolean,
+  createdAt: number,
+  updatedAt: number
+}

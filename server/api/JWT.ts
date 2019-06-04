@@ -1,17 +1,5 @@
 import * as jwt from 'jsonwebtoken'
 
-export interface JWTToken {
-  id: number,
-  username: string,
-  displayName: string,
-  profilePhoto: string,
-  vendor: string,
-  iat: number,
-  exp: number,
-  iss: string,
-  sub: string
-}
-
 class JWTBuilder {
   private readonly issuer: string
   private readonly privkey: any
@@ -77,3 +65,20 @@ class JWTBuilder {
 }
 
 export default new JWTBuilder()
+
+export interface JWTToken {
+  id: number,
+  nickname: string,
+  isAdmin: boolean,
+  auth: { [key: string]: IOAuthUser },
+  iat: number,
+  exp: number,
+  iss: string,
+  sub: string
+}
+
+export interface IOAuthUser {
+  id: string,
+  profilePhoto: string,
+  vendor: string
+}
