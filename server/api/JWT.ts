@@ -67,7 +67,7 @@ class JWTBuilder {
 export default new JWTBuilder()
 
 export interface JWTToken {
-  id: number,
+  id: string,
   nickname: string,
   isAdmin: boolean,
   auth: { [key: string]: IOAuthUser },
@@ -80,5 +80,5 @@ export interface JWTToken {
 export interface IOAuthUser {
   id: string,
   profilePhoto: string,
-  vendor: string
+  accessToken: string
 }

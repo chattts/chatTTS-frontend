@@ -7,23 +7,24 @@ import * as auth from '../strategy'
 
 const router = Router()
 
-passport.serializeUser((user, done) => {
-  done(null, {})
-})
-
-passport.deserializeUser((user, done) => {
-  done(null, {})
-})
-
 // passport auth configure
-const configurePassport = (configure: { vendor: string, Strategy: any, strategyConfig: any }) => {
-  const { vendor, Strategy, strategyConfig } = configure
-  const option = {
-    failureRedirect: '/auth/fail'
-  }
+const configurePassport = (configure: {
+  vendor: string,
+  Strategy: any,
+  strategyConfig: any,
+  authOptions: any,
+  callbackOptions: any
+}) => {
+  const {
+    vendor,
+    Strategy,
+    strategyConfig,
+    authOptions,
+    callbackOptions
+  } = configure
 
-  router.get(`/${vendor}`, passport.authenticate(vendor))
-  router.get(`/${vendor}/callback`, passport.authenticate(vendor, option), auth._generateToken)
+  router.get(`/${vendor}`, passport.authenticate(vendor, authOptions))
+  router.get(`/${vendor}/callback`, passport.authenticate(vendor, callbackOptions), auth._generateToken)
 
   passport.use(new Strategy(strategyConfig, auth._strategy(vendor)))
 }

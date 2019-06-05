@@ -11,3 +11,12 @@ export let strategyConfig = {
   scope: process.env.twitch_scope!,
   passReqToCallback: true
 }
+
+export let authOptions = {
+  
+}
+
+export let callbackOptions = {
+  failureRedirect: '/auth/fail',
+  session: false
+}

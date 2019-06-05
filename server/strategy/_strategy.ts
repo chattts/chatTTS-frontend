@@ -1,4 +1,6 @@
 import * as db from '../db'
+import * as api from '../api'
+import { Error, Token } from '~/api/LoginCheck';
 
 export default (vendor: string) => {
   return async (req: any, accessToken: string, refreshToken: string, profile: any, done: Function) => {
@@ -49,27 +51,65 @@ export default (vendor: string) => {
         }
       })
     } else {
-      const query = await db.User.create(getNickname(profile, vendor))
-      await db.OAuth.createUser({
-        userId: query.id,
-        OAuthId: profile.id,
-        AccessToken: accessToken,
-        RefreshToken: refreshToken,
-        profilePhoto: getProfilePhoto(profile, vendor),
-        vendor
-      })
+      const token = api.sessToken.getToken(req)
 
-      payload = {
-        id: query.id,
-        nickname: query.nickname,
-        isAdmin: query.isAdmin,
-        auth: {}
-      }
+      const parsedToken = await api.LoginCheck(token)
 
-      payload['auth'][vendor] = {
-        id: profile.id,
-        profilePhoto: getProfilePhoto(profile, vendor),
-        accessToken: accessToken
+      if (!token && !(parsedToken as Error).valid) {
+
+        const query = await db.User.create(getNickname(profile, vendor))
+
+        await db.OAuth.createUser({
+          userId: query.id,
+          OAuthId: profile.id,
+          AccessToken: accessToken,
+          RefreshToken: refreshToken,
+          profilePhoto: getProfilePhoto(profile, vendor),
+          vendor
+        })
+
+        payload = {
+          id: query.id,
+          nickname: query.nickname,
+          isAdmin: query.isAdmin,
+          auth: {}
+        }
+
+        payload['auth'][vendor] = {
+          id: profile.id,
+          profilePhoto: getProfilePhoto(profile, vendor),
+          accessToken: accessToken
+        }
+      } else {
+        await db.OAuth.createUser({
+          userId: (parsedToken as Token).id,
+          OAuthId: profile.id,
+          AccessToken: accessToken,
+          RefreshToken: refreshToken,
+          profilePhoto: getProfilePhoto(profile, vendor),
+          vendor
+        })
+
+        payload = {
+          id: (parsedToken as Token).id,
+          nickname: (parsedToken as Token).nickname,
+          isAdmin: (parsedToken as Token).isAdmin,
+          auth: {}
+        }
+
+        for(const key in (parsedToken as Token).auth) {
+          payload['auth'][key] = {
+            id: (parsedToken as Token).auth[key].id,
+            profilePhoto: (parsedToken as Token).auth[key].profilePhoto,
+            accessToken: (parsedToken as Token).auth[key].accessToken
+          }
+        }
+
+        payload['auth'][vendor] = {
+          id: profile.id,
+          profilePhoto: getProfilePhoto(profile, vendor),
+          accessToken: accessToken
+        }
       }
     }
 
