@@ -51,9 +51,9 @@ class OAuth {
   }
 
   static async updateUser (OAuthId: string, vendor: string, update: {
-    AccessToken: string,
-    RefreshToken: string,
-    profilePhoto: string
+    AccessToken?: string,
+    RefreshToken?: string,
+    profilePhoto?: string
   }): Promise<boolean> {
     const updateData: { [key: string]: string } = {}
 

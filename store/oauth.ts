@@ -1,21 +1,20 @@
 import axios, { AxiosResponse } from 'axios'
 import { Token, Error } from '~/server/api/LoginCheck';
+import { IOAuthUser } from '~/server/api/jwt';
 
 export const namespaced = true
 
 export const state = (): {
   id: number|null,
-  username: string|null,
-  displayName: string|null,
-  profilePhoto: string|null,
-  vendor: string|null
+  nickname: string|null,
+  isAdmin: boolean,
+  auth: { [key: string]: IOAuthUser }
 } => {
   return {
     id: 0,
-    username: "",
-    displayName: "",
-    profilePhoto: "",
-    vendor: ""
+    nickname: "",
+    isAdmin: false,
+    auth: {}
   }
 }
 
@@ -28,17 +27,15 @@ export const getters = {
 export const mutations = {
   login(state, payload: {
     id: number|null,
-    username: string|null,
-    displayName: string|null,
-    profilePhoto: string|null,
-    vendor: string|null
+    nickname: string|null,
+    isAdmin: boolean,
+    auth: { [key: string]: IOAuthUser }
   } | undefined) {
     if (payload) {
       state.id = payload.id
-      state.username = payload.username
-      state.displayName = payload.displayName
-      state.profilePhoto = payload.profilePhoto
-      state.vendor = payload.vendor
+      state.nickname = payload.nickname
+      state.isAdmin = payload.isAdmin
+      state.auth = payload.auth
     }
   }
 }
@@ -59,12 +56,20 @@ export const actions = {
 
       return undefined
     } else {
+      const auth = {}
+
+      for(const key in (data.data as Token).auth) {
+        auth[key] = {
+          id: (data.data as Token).auth[key].id,
+          profilePhoto: (data.data as Token).auth[key].profilePhoto
+        }
+      }
+      
       return context.commit("login", {
         id: (data.data as Token).id,
-        username: (data.data as Token).username,
-        displayName: (data.data as Token).displayName,
-        profilePhoto: (data.data as Token).profilePhoto,
-        vendor: (data.data as Token).vendor
+        nickname: (data.data as Token).nickname,
+        isAdmin: (data.data as Token).isAdmin,
+        auth
       })
     }
   }

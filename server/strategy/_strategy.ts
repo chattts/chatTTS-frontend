@@ -1,6 +1,6 @@
 import * as db from '../db'
 import * as api from '../api'
-import { Error, Token } from '~/api/LoginCheck';
+import { Error, Token } from '../api/LoginCheck';
 
 export default (vendor: string) => {
   return async (req: any, accessToken: string, refreshToken: string, profile: any, done: Function) => {
@@ -43,11 +43,10 @@ export default (vendor: string) => {
         auth: {}
       }
 
-      oauth.forEach((value, index, array) => {
+      oauth!.forEach((value, index, array) => {
         payload['auth'][value.vendor] = {
           id: value.OAuthId,
-          profilePhoto: value.profilePhoto,
-          accessToken: value.AccessToken
+          profilePhoto: value.profilePhoto
         }
       })
     } else {
@@ -77,8 +76,7 @@ export default (vendor: string) => {
 
         payload['auth'][vendor] = {
           id: profile.id,
-          profilePhoto: getProfilePhoto(profile, vendor),
-          accessToken: accessToken
+          profilePhoto: getProfilePhoto(profile, vendor)
         }
       } else {
         await db.OAuth.createUser({
@@ -100,15 +98,13 @@ export default (vendor: string) => {
         for(const key in (parsedToken as Token).auth) {
           payload['auth'][key] = {
             id: (parsedToken as Token).auth[key].id,
-            profilePhoto: (parsedToken as Token).auth[key].profilePhoto,
-            accessToken: (parsedToken as Token).auth[key].accessToken
+            profilePhoto: (parsedToken as Token).auth[key].profilePhoto
           }
         }
 
         payload['auth'][vendor] = {
           id: profile.id,
-          profilePhoto: getProfilePhoto(profile, vendor),
-          accessToken: accessToken
+          profilePhoto: getProfilePhoto(profile, vendor)
         }
       }
     }

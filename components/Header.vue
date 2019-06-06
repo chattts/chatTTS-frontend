@@ -39,27 +39,29 @@
               role="button"
             )
               fa(:icon="['fas', 'user-circle']")
-              |  &nbsp; Loggeded at {{ getUser.displayName}}
+              |  &nbsp; Loggeded at {{ getUser.nickname}}
               b-icon(icon="menu-down")
             b-dropdown-item(
               custom
               aria-role="menuitem"
+              v-for="(value, key) in getUser.auth"
+              :key="key"
             )
               | Logged as &nbsp;
               b
                 fa(
-                  v-if="getUser.vendor == 'twitch'"
+                  v-if="key == 'twitch'"
                   :icon="['fab', 'twitch']"
                 )
                 fa(
-                  v-if="getUser.vendor == 'youtube'"
+                  v-if="key == 'google'"
                   :icon="['fab', 'youtube']"
                 )
-                |  {{ getUser.displayName }}
+                |  {{ getUser.nickname }}
               figure.image(
-                v-if="getUser.profilePhoto"
+                v-if="value.profilePhoto"
               )
-                img.is-rounded(:src="getUser.profilePhoto")
+                img.is-rounded(:src="value.profilePhoto")
             hr.dropdown-divider
             b-dropdown-item(
               has-link
