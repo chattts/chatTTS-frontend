@@ -19,6 +19,16 @@ OAuth.init({
     allowNull: false,
     unique: false,
   },
+  username: {
+    type: Sequelize.STRING(20),
+    allowNull: false,
+    unique: false,
+  },
+  displayName: {
+    type: Sequelize.STRING(20),
+    allowNull: false,
+    unique: false
+  },
   profilePhoto: {
     type: Sequelize.STRING(255),
     allowNull: false,

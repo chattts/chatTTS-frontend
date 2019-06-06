@@ -29,7 +29,7 @@ router.get('/getYoutubeLiveChatId', async (req, res) => {
             method: 'GET',
             url: 'https://www.googleapis.com/youtube/v3/liveBroadcasts?' +
               'part=snippet&broadcastType=all&maxResults=5&' +
-              `mine=true&key=${process.env.youtube_keyy}`,
+              `mine=true&key=${process.env.youtube_key}`,
             headers: {
               Authorization: `Bearer ${accessToken}`,
               Accept: 'application/json'

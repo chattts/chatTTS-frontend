@@ -12,11 +12,18 @@ export default (vendor: string) => {
       } else return ''
     }
 
-    function getNickname(profile: any, vendor: string): string {
+    function getDisplayName(profile: any, vendor: string): string {
       if (vendor === 'google') {
         return profile.displayName
       } else if (vendor === 'twitch') {
         return profile.displayName
+      } else return ''
+    }
+    function getUsername(profile: any, vendor: string): string {
+      if (vendor === 'google') {
+        return profile.displayName
+      } else if (vendor === 'twitch') {
+        return profile.username
       } else return ''
     }
 
@@ -28,6 +35,7 @@ export default (vendor: string) => {
       await db.OAuth.updateUser(profile.id, vendor, {
         AccessToken: accessToken,
         RefreshToken: refreshToken,
+        username: getUsername(profile, vendor),
         profilePhoto: getProfilePhoto(profile, vendor)
       })
 
@@ -46,7 +54,9 @@ export default (vendor: string) => {
       oauth!.forEach((value, index, array) => {
         payload['auth'][value.vendor] = {
           id: value.OAuthId,
-          profilePhoto: value.profilePhoto
+          profilePhoto: value.profilePhoto,
+          username: value.username,
+          displayName: value.displayName
         }
       })
     } else {
@@ -56,7 +66,7 @@ export default (vendor: string) => {
 
       if (!token && !(parsedToken as Error).valid) {
 
-        const query = await db.User.create(getNickname(profile, vendor))
+        const query = await db.User.create(getDisplayName(profile, vendor))
 
         await db.OAuth.createUser({
           userId: query.id,
@@ -64,6 +74,8 @@ export default (vendor: string) => {
           AccessToken: accessToken,
           RefreshToken: refreshToken,
           profilePhoto: getProfilePhoto(profile, vendor),
+          username: getUsername(profile, vendor),
+          displayName: getDisplayName(profile, vendor),
           vendor
         })
 
@@ -76,7 +88,9 @@ export default (vendor: string) => {
 
         payload['auth'][vendor] = {
           id: profile.id,
-          profilePhoto: getProfilePhoto(profile, vendor)
+          profilePhoto: getProfilePhoto(profile, vendor),
+          username: getUsername(profile, vendor),
+          displayName: getDisplayName(profile, vendor)
         }
       } else {
         await db.OAuth.createUser({
@@ -84,6 +98,8 @@ export default (vendor: string) => {
           OAuthId: profile.id,
           AccessToken: accessToken,
           RefreshToken: refreshToken,
+          username: getUsername(profile, vendor),
+          displayName: getDisplayName(profile, vendor),
           profilePhoto: getProfilePhoto(profile, vendor),
           vendor
         })
@@ -98,13 +114,17 @@ export default (vendor: string) => {
         for(const key in (parsedToken as Token).auth) {
           payload['auth'][key] = {
             id: (parsedToken as Token).auth[key].id,
-            profilePhoto: (parsedToken as Token).auth[key].profilePhoto
+            profilePhoto: (parsedToken as Token).auth[key].profilePhoto,
+            username: (parsedToken as Token).auth[key].username,
+            displayName: (parsedToken as Token).auth[key].displayName
           }
         }
 
         payload['auth'][vendor] = {
           id: profile.id,
-          profilePhoto: getProfilePhoto(profile, vendor)
+          profilePhoto: getProfilePhoto(profile, vendor),
+          username: getUsername(profile, vendor),
+          displayName: getDisplayName(profile, vendor)
         }
       }
     }

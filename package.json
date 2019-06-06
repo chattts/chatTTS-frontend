@@ -51,6 +51,7 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-twitch": "^1.0.3",
     "redis": "^2.8.0",
+    "rest-url-builder": "^1.0.6",
     "sequelize": "^5.8.7",
     "ts-node": "^8.2.0",
     "vue-cookies": "^1.5.13"

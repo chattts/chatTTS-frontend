@@ -61,7 +61,9 @@ export const actions = {
       for(const key in (data.data as Token).auth) {
         auth[key] = {
           id: (data.data as Token).auth[key].id,
-          profilePhoto: (data.data as Token).auth[key].profilePhoto
+          profilePhoto: (data.data as Token).auth[key].profilePhoto,
+          username: (data.data as Token).auth[key].username,
+          displayName: (data.data as Token).auth[key].displayName
         }
       }
       

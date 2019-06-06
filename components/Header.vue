@@ -57,7 +57,7 @@
                   v-if="key == 'google'"
                   :icon="['fab', 'youtube']"
                 )
-                |  {{ getUser.nickname }}
+                |  {{ value.displayName }}
               figure.image(
                 v-if="value.profilePhoto"
               )

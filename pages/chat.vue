@@ -50,7 +50,8 @@
   import { Component, Inject, Model, Prop, Vue, Watch, Provide } from 'nuxt-property-decorator'
 
   import axios, { AxiosResponse } from 'axios'
-  import { IYoutubeLive } from '~/server/routes/api';
+  import { IYoutubeLive } from '~/server/routes/api'
+  import { RestURLBuilder } from 'rest-url-builder'
 
   import ChatBubble from '~/components/ChatBubble.vue'
   import ChatData from '~/assets/class/chat'
@@ -103,10 +104,25 @@
 
         return
       }
-      /* if (this.username) {
-        console.log(`try to connect ${this.username}`)
-        this.$cookies.set('twitch', this.username)
-        this.ws = new WebSocket(process.env.wsURL!)
+      if (this.twitch || this.youtube) {
+        const urlBuilder = new RestURLBuilder()
+        urlBuilder.buildRestURL(process.env.wsURL! + '?twitch=:twitch&youtube=:youtube')
+        
+        if (this.twitch && this.getUser.auth.twitch.id) {
+          urlBuilder.setQueryParameter('twitch', this.getUser.auth.twitch.username)
+        } else {
+          urlBuilder.setQueryParameter('twitch', '')
+        }
+        if (this.youtube && this.youtubeLiveId && this.getUser.auth.google.id) {
+          urlBuilder.setQueryParameter('youtube', this.youtubeLiveId)
+        } else {
+          urlBuilder.setQueryParameter('youtube', '')
+        }
+        
+        console.log(urlBuilder.get())
+
+        /* 
+        this.ws = new WebSocket(urlBuilder.get())
         this.chat = []
 
         this.ws.onopen = (event) => {
@@ -150,14 +166,14 @@
             position: 'is-bottom-right',
             type: 'is-danger'
           })
-        }
+        } */
       } else {
         Toast.open({
-          message: 'please submit to username',
+          message: 'please set to form',
           position: 'is-bottom-right',
           type: 'is-warning'
         })
-      }*/
+      }
     }
 
     onDisconnect() {

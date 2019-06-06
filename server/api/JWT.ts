@@ -79,5 +79,7 @@ export interface JWTToken {
 
 export interface IOAuthUser {
   id: string,
-  profilePhoto: string
+  profilePhoto: string,
+  username: string,
+  displayName: string
 }

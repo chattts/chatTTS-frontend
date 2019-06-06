@@ -32,7 +32,9 @@ class OAuth {
     OAuthId: string,
     vendor: string,
     AccessToken: string,
-    RefreshToken: string
+    RefreshToken: string,
+    username: string,
+    displayName: string,
     profilePhoto: string
   }): Promise<boolean> {
 
@@ -42,6 +44,8 @@ class OAuth {
       vendor: user.vendor,
       AccessToken: user.AccessToken,
       RefreshToken: user.RefreshToken,
+      username: user.username,
+      displayName: user.displayName,
       profilePhoto: user.profilePhoto
     }
 
@@ -53,12 +57,16 @@ class OAuth {
   static async updateUser (OAuthId: string, vendor: string, update: {
     AccessToken?: string,
     RefreshToken?: string,
+    username?: string,
+    displayName?: string,
     profilePhoto?: string
   }): Promise<boolean> {
     const updateData: { [key: string]: string } = {}
 
     if (update.AccessToken) updateData.AccessToken = update.AccessToken
     if (update.RefreshToken) updateData.RefreshToken = update.RefreshToken
+    if (update.username) updateData.username = update.username
+    if (update.displayName) updateData.displayName = update.displayName
     if (update.profilePhoto) updateData.profilePhoto = update.profilePhoto
 
     await db.OAuth.update(updateData, {
@@ -78,6 +86,8 @@ export interface IOAuth {
   OAuthId: string,
   AccessToken: string,
   RefreshToken: string,
+  username: string,
+  displayName: string,
   vendor: string,
   profilePhoto: string,
   userId: string,
