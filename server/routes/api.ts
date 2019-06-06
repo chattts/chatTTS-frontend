@@ -38,20 +38,27 @@ router.get('/getYoutubeLiveChatId', async (req, res) => {
 
           const youtube = data.data
 
-          let payload =  {
-            error: false,
-            data: []
-          }
+          const liveData: {
+            title: string,
+            thumbnails: { [key: string]: thumbnail },
+            liveChatId: string
+          }[] = []
 
           if (youtube.pageInfo.totalResults > 0) {
             youtube.items.forEach((value) => {
-              payload.data.push({
+              liveData.push({
                 title: value.snippet.title,
                 thumbnails: value.snippet.thumbnails,
                 liveChatId: value.snippet.liveChatId
               })
             })
           }
+
+          let payload =  {
+            error: false,
+            data: liveData
+          }
+
           res.status(200)
             .json(payload)
             .end()
