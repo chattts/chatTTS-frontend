@@ -90,6 +90,13 @@
               a.navbar-item(href="/auth/twitch")
                 fa(:icon="['fab', 'twitch']")
                 | &nbsp; Twitch Login
+            b-dropdown-item(
+              custom
+              aria-role="menuitem"
+            )
+              a.navbar-item(href="/auth/google")
+                fa(:icon="['fab', 'youtube']")
+                | &nbsp; Youtube Login
 
 </template>
 
