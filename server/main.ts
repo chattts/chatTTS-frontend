@@ -46,6 +46,7 @@ app.use(passport.initialize())
 
 // Add server routing
 app.use('/auth', routes.auth)
+app.use('/api', routes.api)
 
 app.use(nuxt.render)
 

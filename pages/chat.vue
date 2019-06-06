@@ -5,20 +5,29 @@
         form.box(
             @submit.prevent="onConnect"
           )
-          .field
-            label.label Streammer
-            input.input(
-              type="text"
-              placeholder="Streammer"
-              v-model="username"
-            )
+          .field.is-grouped
+            .control
+              label.label Twitch
+              label.checkbox
+                input(
+                  type="checkbox"
+                  v-model="twitch"
+                  :disabled="!getUser.auth.twitch"
+                )
+                | &nbsp; Connect
+            .control
+              label.label Youtube
+              label.checkbox
+                input(
+                  type="checkbox"
+                  v-model="youtube"
+                  :disabled="!getUser.auth.google"
+                  @click="testGetYoutubeLiveId"
+                )
+                | &nbsp; Connect
           .field.is-grouped
             .control
               button.button.is-primary(type="submit") Connect
-            .control
-              button.button.is-info(
-                @click="onConnectWithMyself"
-              ) Connect Myself
             .control
               button.button.is-danger(
                 @click="onDisconnect"
@@ -40,6 +49,9 @@
 <script lang="ts">
   import { Component, Inject, Model, Prop, Vue, Watch, Provide } from 'nuxt-property-decorator'
 
+  import axios, { AxiosResponse } from 'axios'
+  import { IYoutubeLive } from '~/server/routes/api';
+
   import ChatBubble from '~/components/ChatBubble.vue'
   import ChatData from '~/assets/class/chat'
 
@@ -52,11 +64,18 @@
   })
   export default class Chat extends Vue {
     @Provide() chat: ChatData[] = []
-    @Provide() username: string|null = null
+    @Provide() twitch: boolean = false
+    @Provide() youtube: boolean = false
+    @Provide() youtubeLiveId: string|null = null
     @Provide() ws: WebSocket|null = null
 
-    onConnect() {
-      if (!this.$store.getters['oauth/getUser'].vendor) {
+    get getUser() {
+        return this.$store.getters['oauth/getUser']
+    }
+    @Watch('getUser')
+
+    async testGetYoutubeLiveId() {
+      if (!this.getUser.id) {
         Toast.open({
           message: 'please login',
           position: 'is-bottom-right',
@@ -65,7 +84,26 @@
 
         return
       }
-      if (this.username) {
+
+      const data: AxiosResponse<IYoutubeLive> = await axios({
+        method: 'GET',
+        url: '/api/getYoutubeLiveChatId'
+      })
+
+      console.log(data.data)
+    }
+
+    onConnect() {
+      if (!this.getUser.id) {
+        Toast.open({
+          message: 'please login',
+          position: 'is-bottom-right',
+          type: 'is-danger'
+        })
+
+        return
+      }
+      /* if (this.username) {
         console.log(`try to connect ${this.username}`)
         this.$cookies.set('twitch', this.username)
         this.ws = new WebSocket(process.env.wsURL!)
@@ -119,20 +157,7 @@
           position: 'is-bottom-right',
           type: 'is-warning'
         })
-      }
-    }
-
-    onConnectWithMyself() {
-      if (this.$store.getters['oauth/getUser'].username) {
-        this.username = this.$store.getters['oauth/getUser'].username
-        this.onConnect()
-      } else {
-        Toast.open({
-          message: 'please login',
-          position: 'is-bottom-right',
-          type: 'is-danger'
-        })
-      }
+      }*/
     }
 
     onDisconnect() {

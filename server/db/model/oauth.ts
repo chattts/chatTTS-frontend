@@ -81,8 +81,8 @@ export interface IOAuth {
   vendor: string,
   profilePhoto: string,
   userId: string,
-  createdAt: number,
-  updatedAt: number
+  createdAt: Date,
+  updatedAt: Date
 }
 
 export interface IOAuthWithUser extends IOAuth {

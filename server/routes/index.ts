@@ -1,5 +1,2 @@
-import auth from './auth'
-
-export {
-  auth
-}
+export { default as auth } from './auth'
+export { default as api } from './api'

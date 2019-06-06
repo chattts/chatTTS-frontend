@@ -7,9 +7,7 @@ class getAccessToken {
     try {
       const query = await db.OAuth.findByOAuth(oauthId, vendor)
 
-      console.log(query)
-
-      if ((new Date().getTime() / 1000) - 3600 > query.updatedAt) {
+      if (new Date().getTime() > query.updatedAt.getTime() + 3600) {
         return await this.renew({
           vendor,
           oauthId,
@@ -33,8 +31,6 @@ class getAccessToken {
     let config: AxiosRequestConfig = {
       method: 'POST',
       data: {
-        client_id: process.env.twitch_id!,
-        client_secret: process.env.twitch_secret!,
         grant_type: 'refresh_token',
         refresh_token: refreshToken
       }
@@ -42,8 +38,12 @@ class getAccessToken {
 
     if (vendor === 'twitch') {
       config.url = 'https://id.twitch.tv/oauth2/token'
+      config.data.client_id =  process.env.twitch_id!
+      config.data.client_secret =  process.env.twitch_secret!
     } else if (vendor === 'google') {
       config.url = 'https://www.googleapis.com/oauth2/v4/token'
+      config.data.client_id =  process.env.youtube_id!
+      config.data.client_secret =  process.env.youtube_secret!
     } else {
       throw new Error(`${vendor} is not undeclared vendor`)
     }
@@ -59,6 +59,7 @@ class getAccessToken {
 
       return access_token
     } catch (error) {
+      console.log(error)
       throw error
     }
   }
