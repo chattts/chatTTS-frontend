@@ -1,6 +1,6 @@
 <template lang="pug">
   header
-    nav.navbar.header.has-shadow.is-primary.is-twitch(
+    nav.navbar.header.has-shadow.is-info(
       role="navigation"
       aria-label="main navigation"
     )
@@ -34,7 +34,7 @@
             position="is-bottom-left"
             aria-role="menu"
           )
-            a.navbar-item.is-twitch(
+            a.navbar-item.is-info(
               slot="trigger"
               role="button"
             )
@@ -76,7 +76,7 @@
             position="is-bottom-left"
             aria-role="menu"
           )
-            a.navbar-item.is-twitch(
+            a.navbar-item.is-info(
               slot="trigger"
               role="button"
             )
@@ -122,47 +122,20 @@
 </script>
 
 <style lang="scss">
-  $twitch: #6441A4;
-  $twitch-sub: #9a7fcc;
-
-  .navbar.is-twitch {
-    background-color: $twitch !important;
-  }
   .navbar-item img {
     border-radius: 5px;
   }
 
   @media screen and (min-width: 1088px) {
-    .navbar.is-twitch {
-      .dropdown .dropdown-menu .navbar-item {
-        background-color: #fff !important;
-        color: #4a4a4a !important;
-      }
-
-      .navbar-item {
-        background-color: $twitch !important;
-        color: #fff !important;
-
-        &:hover {
-          background-color: $twitch-sub !important;
-          color: #fff;
-        }
-      }
-    }
-
     .navbar-end {
       margin-right: 0.4em;
     }
-  }
 
-  @media screen and (max-width: 1087px) {
-    .navbar.is-twitch {
-      .dropdown .dropdown-menu .navbar-item:hover {
-        color: #4a4a4a !important;
-      }
-
-      .navbar-item:hover {
-        color: $twitch !important;
+    .dropdown a.navbar-item.is-info {
+      color: #fff;
+      
+      &:hover, &.is-active {
+        background-color: #118fe4;
       }
     }
   }
