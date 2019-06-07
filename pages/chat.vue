@@ -6,25 +6,23 @@
             @submit.prevent="onConnect"
           )
           .field.is-grouped
-            .control
-              label.label Twitch
-              label.checkbox
-                input(
-                  type="checkbox"
+            .control.box(style="background-color: #6441A4;")
+              label.label.has-text-white Twitch
+              label.checkbox.has-text-white
+                b-switch(
                   v-model="twitch"
                   :disabled="!getUser.auth.twitch"
-                )
-                | &nbsp; Connect
-            .control
-              label.label Youtube
-              label.checkbox
-                input(
-                  type="checkbox"
+                ) Connect with Twitch
+            .control.box(style="background-color: #FF0000;")
+              label.label.has-text-white Youtube
+              label.checkbox.has-text-white
+                input.input(
+                  type="text"
+                  placeholder="Youtuve LiveChat ID"
                   v-model="youtube"
                   :disabled="!getUser.auth.google"
-                  @click="testGetYoutubeLiveId"
+                  @click="getYoutubeLiveId"
                 )
-                | &nbsp; Connect
           .field.is-grouped
             .control
               button.button.is-primary(type="submit") Connect
@@ -44,16 +42,35 @@
       .column.is-narrow
         .box
           p here is configure area
+    b-modal(
+      :active.sync="isYoutubeModalActive"
+    )
+      .box
+        h1 Select the Youtube Live
+        br
+        article.media(v-for="(value, key) in youtuveLiveList" v-key="key")
+          .media-left
+            figure.image
+              img(:src="value.thumbnails['default'].url")
+          .media-content
+            .content
+              h4 {{ value.title }}
+              b {{ value.description }}
+          .media-right
+            button.button(
+              @click="selectYoutubeLive(value.liveChatId)"
+            ) Select this live
 </template>
 
 <script lang="ts">
   import { Component, Inject, Model, Prop, Vue, Watch, Provide } from 'nuxt-property-decorator'
 
   import axios, { AxiosResponse } from 'axios'
-  import { IYoutubeLive } from '~/server/routes/api'
+  import { IGetYoutubeLiveChatId, IGetYoutubeLiveChatIdData } from '~/server/routes/api'
   import { RestURLBuilder } from 'rest-url-builder'
 
   import ChatBubble from '~/components/ChatBubble.vue'
+
   import ChatData from '~/assets/class/chat'
 
   import { Toast } from 'buefy/dist/components/toast'
@@ -66,19 +83,20 @@
   export default class Chat extends Vue {
     @Provide() chat: ChatData[] = []
     @Provide() twitch: boolean = false
-    @Provide() youtube: boolean = false
-    @Provide() youtubeLiveId: string|null = null
+    @Provide() youtube: string|null = null
+    @Provide() youtuveLiveList: IGetYoutubeLiveChatIdData[] = []
     @Provide() ws: WebSocket|null = null
+    @Provide() isYoutubeModalActive: boolean = false
 
     get getUser() {
         return this.$store.getters['oauth/getUser']
     }
     @Watch('getUser')
 
-    async testGetYoutubeLiveId() {
-      if (!this.getUser.id) {
+    async getYoutubeLiveId() {
+      if (!this.getUser.id || !this.getUser.auth.google.id) {
         Toast.open({
-          message: 'please login',
+          message: 'please login to google',
           position: 'is-bottom-right',
           type: 'is-danger'
         })
@@ -86,12 +104,21 @@
         return
       }
 
-      const data: AxiosResponse<IYoutubeLive> = await axios({
-        method: 'GET',
-        url: '/api/getYoutubeLiveChatId'
-      })
+      if (!this.youtube) {
+        const data: AxiosResponse<IGetYoutubeLiveChatId> = await axios({
+          method: 'GET',
+          url: '/api/getYoutubeLiveChatId'
+        })
 
-      console.log(data.data)
+        console.log(data.data.data)
+        this.youtuveLiveList = data.data.data
+        this.isYoutubeModalActive = true
+      }
+    }
+
+    selectYoutubeLive(liveid: string) {
+      this.youtube = liveid
+      this.isYoutubeModalActive = false
     }
 
     onConnect() {
@@ -113,8 +140,8 @@
         } else {
           urlBuilder.setQueryParameter('twitch', '')
         }
-        if (this.youtube && this.youtubeLiveId && this.getUser.auth.google.id) {
-          urlBuilder.setQueryParameter('youtube', this.youtubeLiveId)
+        if (this.youtube && this.youtube && this.getUser.auth.google.id) {
+          urlBuilder.setQueryParameter('youtube', this.youtube)
         } else {
           urlBuilder.setQueryParameter('youtube', '')
         }

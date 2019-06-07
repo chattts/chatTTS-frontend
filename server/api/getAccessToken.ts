@@ -7,7 +7,7 @@ class getAccessToken {
     try {
       const query = await db.OAuth.findByOAuth(oauthId, vendor)
 
-      if (new Date().getTime() > query.updatedAt.getTime() + 3600) {
+      if (new Date().getTime() > query.updatedAt.getTime() + 3600000) {
         return await this.renew({
           vendor,
           oauthId,

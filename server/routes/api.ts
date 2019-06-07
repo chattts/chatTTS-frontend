@@ -38,19 +38,18 @@ router.get('/getYoutubeLiveChatId', async (req, res) => {
 
           const youtube = data.data
 
-          const liveData: {
-            title: string,
-            thumbnails: { [key: string]: thumbnail },
-            liveChatId: string
-          }[] = []
+          const liveData: IGetYoutubeLiveChatIdData[] = []
 
           if (youtube.pageInfo.totalResults > 0) {
             youtube.items.forEach((value) => {
-              liveData.push({
-                title: value.snippet.title,
-                thumbnails: value.snippet.thumbnails,
-                liveChatId: value.snippet.liveChatId
-              })
+              if (value.snippet.liveChatId) {
+                liveData.push({
+                  title: value.snippet.title,
+                  description: value.snippet.description,
+                  thumbnails: value.snippet.thumbnails,
+                  liveChatId: value.snippet.liveChatId
+                })
+              }
             })
           }
 
@@ -73,6 +72,18 @@ router.get('/getYoutubeLiveChatId', async (req, res) => {
 })
 
 export default router
+
+export interface IGetYoutubeLiveChatId {
+  error: false,
+  data: IGetYoutubeLiveChatIdData[]
+}
+
+export interface IGetYoutubeLiveChatIdData {
+  title: string,
+  description: string,
+  thumbnails: { [key: string]: thumbnail },
+  liveChatId: string
+}
 
 export interface IYoutubeLive {
   kind: 'youtube#liveBroadcastListResponse',
