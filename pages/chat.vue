@@ -46,16 +46,17 @@
       :active.sync="isYoutubeModalActive"
     )
       .box
-        h1 Select the Youtube Live
+        .content
+          h1 Select the Youtube Live
         br
-        article.media(v-for="(value, key) in youtuveLiveList" v-key="key")
+        article.media(v-for="(value, key) in youtuveLiveList" :key="key")
           .media-left
             figure.image
               img(:src="value.thumbnails['default'].url")
           .media-content
             .content
               h4 {{ value.title }}
-              b {{ value.description }}
+              p {{ value.description }}
           .media-right
             button.button(
               @click="selectYoutubeLive(value.liveChatId)"
@@ -104,16 +105,13 @@
         return
       }
 
-      if (!this.youtube) {
-        const data: AxiosResponse<IGetYoutubeLiveChatId> = await axios({
-          method: 'GET',
-          url: '/api/getYoutubeLiveChatId'
-        })
+      const data: AxiosResponse<IGetYoutubeLiveChatId> = await axios({
+        method: 'GET',
+        url: '/api/getYoutubeLiveChatId'
+      })
 
-        console.log(data.data.data)
-        this.youtuveLiveList = data.data.data
-        this.isYoutubeModalActive = true
-      }
+      this.youtuveLiveList = data.data.data
+      this.isYoutubeModalActive = true
     }
 
     selectYoutubeLive(liveid: string) {
