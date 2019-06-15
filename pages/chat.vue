@@ -67,7 +67,7 @@
   import { Component, Inject, Model, Prop, Vue, Watch, Provide } from 'nuxt-property-decorator'
 
   import axios, { AxiosResponse } from 'axios'
-  import { IGetYoutubeLiveChatId, IGetYoutubeLiveChatIdData } from '~/server/routes/api'
+  import { IGetYoutubeLiveChatId, IGetYoutubeLiveChatIdData } from '~/assets/types'
   import { RestURLBuilder } from 'rest-url-builder'
 
   import ChatBubble from '~/components/ChatBubble.vue'
@@ -107,7 +107,8 @@
 
       const data: AxiosResponse<IGetYoutubeLiveChatId> = await axios({
         method: 'GET',
-        url: '/api/getYoutubeLiveChatId'
+        url: `${process.env.apiURL}api/getYoutubeLiveChatId`,
+        withCredentials: true
       })
 
       this.youtuveLiveList = data.data.data

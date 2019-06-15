@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { Token, Error } from '~/server/api/LoginCheck';
-import { IOAuthUser } from '~/server/api/jwt';
+import { Token, Error, IOAuthUser } from '~/assets/types'
 
 export const namespaced = true
 
@@ -44,7 +43,8 @@ export const actions = {
   async login(context) {
     const data: AxiosResponse<Token|Error> = await axios({
       method: 'get',
-      url: '/auth/check'
+      url: `${process.env.apiURL}auth/check`,
+      withCredentials: true
     })
 
     if ((data.data as Error).valid) {

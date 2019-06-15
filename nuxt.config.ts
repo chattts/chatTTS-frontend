@@ -69,9 +69,11 @@ const config: NuxtConfiguration = {
   */
   modules: [
     "@nuxtjs/axios",
-    "@nuxtjs/dotenv",
     "nuxt-buefy",
     "nuxt-rfg-icon",
+    ["@nuxtjs/dotenv", {
+      systemvars: true
+    }],
     ['nuxt-fontawesome', {
       component: 'fa',
       imports: [

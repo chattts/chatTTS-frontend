@@ -67,7 +67,7 @@
               has-link
               aria-role="menuitem"
             )
-              a.navbar-item(href="/auth/logout")
+              a.navbar-item(:href="`${apiURL}auth/logout`")
                 fa(:icon="['fas', 'sign-out-alt']")
                 | &nbsp; Logout!
         .navbar-end(v-else)
@@ -87,14 +87,14 @@
               custom
               aria-role="menuitem"
             )
-              a.navbar-item(href="/auth/twitch")
+              a.navbar-item(:href="`${apiURL}auth/twitch`")
                 fa(:icon="['fab', 'twitch']")
                 | &nbsp; Twitch Login
             b-dropdown-item(
               custom
               aria-role="menuitem"
             )
-              a.navbar-item(href="/auth/google")
+              a.navbar-item(:href="`${apiURL}auth/google`")
                 fa(:icon="['fab', 'youtube']")
                 | &nbsp; Youtube Login
 
@@ -107,6 +107,9 @@
     computed: {
       getUser() {
         return this.$store.getters['oauth/getUser']
+      },
+      apiURL(): string {
+        return process.env.apiURL!
       }
     }
   })
