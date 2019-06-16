@@ -123,6 +123,16 @@
       this.isYoutubeModalActive = false
     }
 
+    beforeDestroy() {
+      this.queue.stop()
+      this.queue.clear()
+      this.chat = []
+
+      if (this.ws) {
+        this.ws.close()
+      }
+    }
+
     onConnect() {
       if (!this.getUser.id) {
         Toast.open({
@@ -173,7 +183,6 @@
               synth.speak(utterThis)
 
               utterThis.onend = (event) => {
-                console.log(event)
                 data.changeStatus('read')
                 this.queue.remove(0)
               }
@@ -208,6 +217,8 @@
         }
         this.ws.onclose = (event) => {
           console.log('disconnected')
+          this.queue.stop()
+
           Toast.open({
             message: 'disconnected with bots',
             posotion: 'is-bottom-right',
@@ -216,6 +227,8 @@
         }
         this.ws.onerror = (event) => {
           console.log('error!')
+          this.queue.stop()
+          
           Toast.open({
             message: 'Error at connection',
             position: 'is-bottom-right',
