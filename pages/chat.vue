@@ -13,7 +13,7 @@
                   v-model="twitch"
                   :disabled="!getUser.auth.twitch"
                 ) Connect with Twitch
-            .control.box(style="background-color: #FF0000;")
+            //.control.box(style="background-color: #FF0000;")
               label.label.has-text-white Youtube
               label.checkbox.has-text-white
                 input.input(
@@ -28,6 +28,7 @@
               button.button.is-primary(type="submit") Connect
             .control
               button.button.is-danger(
+                type="button"
                 @click="onDisconnect"
               ) Disconnect
     .columns
@@ -67,8 +68,9 @@
   import { Component, Inject, Model, Prop, Vue, Watch, Provide } from 'nuxt-property-decorator'
 
   import axios, { AxiosResponse } from 'axios'
-  import { IGetYoutubeLiveChatId, IGetYoutubeLiveChatIdData } from '~/assets/types'
+  import { IGetYoutubeLiveChatId, IGetYoutubeLiveChatIdData, ISuccessPacket } from '~/assets/types'
   import { RestURLBuilder } from 'rest-url-builder'
+  import Queue from '~/assets/class/queue'
 
   import ChatBubble from '~/components/ChatBubble.vue'
 
@@ -88,6 +90,7 @@
     @Provide() youtuveLiveList: IGetYoutubeLiveChatIdData[] = []
     @Provide() ws: WebSocket|null = null
     @Provide() isYoutubeModalActive: boolean = false
+    @Provide() queue: Queue = new Queue()
 
     get getUser() {
         return this.$store.getters['oauth/getUser']
@@ -144,10 +147,7 @@
         } else {
           urlBuilder.setQueryParameter('youtube', '')
         }
-        
-        console.log(urlBuilder.get())
 
-        /* 
         this.ws = new WebSocket(urlBuilder.get())
         this.chat = []
 
@@ -158,24 +158,53 @@
             position: 'is-bottom-right',
             type: 'is-success'
           })
+
+          this.queue.run((data) => {
+            const synth = window.speechSynthesis
+
+            if (data && !synth.speaking && data.status == 'wait') {
+              data.changeStatus('reading')
+              const utterThis = new SpeechSynthesisUtterance(data.message)
+
+              utterThis.voice = synth.getVoices()[0]
+              utterThis.pitch = 1.2
+              utterThis.rate = 1.2
+
+              synth.speak(utterThis)
+
+              utterThis.onend = (event) => {
+                console.log(event)
+                data.changeStatus('read')
+                this.queue.remove(0)
+              }
+            }
+          })
         }
         this.ws.onmessage = (event) => {
-          const data = JSON.parse(event.data)
+          const data = JSON.parse(event.data) as ISuccessPacket
 
-          this.chat.push(new ChatData({
-            username: data.username,
-            displayName: data.displayName,
-            message: data.message,
-            emotes: data.emotes,
-            userType: data.userType,
-            badges: data.badges,
-            status: "wait"
-          }))
+          const chat = new ChatData({
+            displayName: data.data.displayName,
+            message: data.data.message,
+            emotes: data.data.emotes,
+            userType: data.data.userType,
+            badges: data.data.badges,
+            status: "wait",
+            vendor: data.data.vendor,
+          })
+
+          this.chat.push(chat)
+          this.queue.add(chat)
+
           const elem = this.$refs.chat as Element
 
           setTimeout(() => {
             elem.scrollTop = elem.scrollHeight
           }, 80)
+
+          if(this.chat.length > 100) {
+            this.chat.splice(0, 1)
+          }
         }
         this.ws.onclose = (event) => {
           console.log('disconnected')
@@ -192,7 +221,7 @@
             position: 'is-bottom-right',
             type: 'is-danger'
           })
-        } */
+        }
       } else {
         Toast.open({
           message: 'please set to form',

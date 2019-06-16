@@ -5,6 +5,7 @@
     p ASDFASDFASDF
     p 레이아웃 만드는중
     p 레이아웃 어떻게 만들어야되지 진짜..
+    nuxt-link(to="/chat") chat
 </template>
 
 <script lang="ts">

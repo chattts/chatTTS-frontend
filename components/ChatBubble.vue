@@ -3,6 +3,12 @@
     .columns.chat
       .column
         p 
+          span(v-if="chat.vendor == 'twitch'")
+            fa(:icon="['fab', 'twitch']")
+            | &nbsp;
+          span(v-else-if="chat.vendor == 'youtube'")
+            fa(:icon="['fab', 'youtube']")
+            | &nbsp;
           span(v-if="chat.userType=='staff'")
             fa(:icon="['fas', 'tools']")
             | &nbsp;
@@ -15,13 +21,15 @@
           span(v-if="chat.badges && chat.badges.broadcaster")
             fa(:icon="['fas', 'video']")
             | &nbsp;
-          | {{ this.username }}: 
+          | {{ this.chat.displayName }}: 
           | {{ this.chat.message }}
       .column.is-narrow
         p
           span(v-if="chat.status == 'wait'")
             fa(:icon="['far', 'clock']")
             | &nbsp;
+          span(v-else-if="chat.status == 'reading'")
+            fa(:icon="['fas', 'volume-up']")
           span(v-else-if="chat.status == 'read'")
             fa(:icon="['fas', 'check']")
             | &nbsp;
@@ -39,18 +47,6 @@
   })
   export default class ChatBubble extends Vue {
     @Prop() chat!: ChatData
-
-    get username(): string {
-      if (this.chat) {
-        if (this.chat.displayName) {
-          return `${this.chat.displayName} (${this.chat.username})`
-        } else {
-          return this.chat.username
-        }
-      } else {
-        return ''
-      }
-    }
   }
 </script>
 
