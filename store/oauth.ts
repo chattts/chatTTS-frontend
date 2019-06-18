@@ -41,7 +41,7 @@ export const mutations = {
 
 export const actions = {
   async login(context) {
-    const data: AxiosResponse<Token|Error> = await axios({
+    let data: AxiosResponse<Token|Error> = await axios({
       method: 'get',
       url: `${process.env.apiURL}auth/check`,
       withCredentials: true
@@ -56,6 +56,13 @@ export const actions = {
 
       return undefined
     } else {
+      if ((data.data as Token).exp < Math.floor(new Date().getTime()/1000) + 3600) {
+        data = await axios({
+          method: 'get',
+          url: `${process.env.apiURL}auth/renew`,
+          withCredentials: true
+        })
+      }
       const auth = {}
 
       for(const key in (data.data as Token).auth) {

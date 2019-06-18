@@ -67,7 +67,7 @@
               has-link
               aria-role="menuitem"
             )
-              a.navbar-item(:href="`${apiURL}auth/logout`")
+              a.navbar-item(:href="`${getApiURL}auth/logout`")
                 fa(:icon="['fas', 'sign-out-alt']")
                 | &nbsp; Logout!
         .navbar-end(v-else)
@@ -87,14 +87,14 @@
               custom
               aria-role="menuitem"
             )
-              a.navbar-item(:href="`${apiURL}auth/twitch`")
+              a.navbar-item(:href="`${getApiURL}auth/twitch`")
                 fa(:icon="['fab', 'twitch']")
                 | &nbsp; Twitch Login
-            //b-dropdown-item(
+            b-dropdown-item(
               custom
               aria-role="menuitem"
-            //)
-              a.navbar-item(:href="`${apiURL}auth/google`")
+            )
+              a.navbar-item(:href="`${getApiURL}auth/google`")
                 fa(:icon="['fab', 'youtube']")
                 | &nbsp; Youtube Login
 
@@ -108,19 +108,13 @@
       getUser() {
         return this.$store.getters['oauth/getUser']
       },
-      apiURL(): string {
+      getApiURL() {
         return process.env.apiURL!
       }
     }
   })
   export default class Header extends Vue {
     @Provide() display: boolean = false
-
-    @Watch('getUser')
-    onUserChanged(val, oldVal) {
-      console.log('user changed')
-      console.log(val)
-    }
   }
 </script>
 

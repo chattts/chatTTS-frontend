@@ -228,7 +228,7 @@
         this.ws.onerror = (event) => {
           console.log('error!')
           this.queue.stop()
-          
+
           Toast.open({
             message: 'Error at connection',
             position: 'is-bottom-right',

@@ -1,5 +1,8 @@
 import parseArgs from "minimist"
 import NuxtConfiguration from "@nuxt/config"
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -26,8 +29,8 @@ const pkg = require("./package")
 
 const config: NuxtConfiguration = {
   env: {
-    twitch_id: process.env.twitch_id!,
-    callback_uri: process.env.callback_uri!,
+    apiURL: process.env.apiURL!,
+    wsURL: process.env.wsURL!,
   },
   mode: "spa",
 
@@ -71,9 +74,6 @@ const config: NuxtConfiguration = {
     "@nuxtjs/axios",
     "nuxt-buefy",
     "nuxt-rfg-icon",
-    ["@nuxtjs/dotenv", {
-      systemvars: true
-    }],
     ['nuxt-fontawesome', {
       component: 'fa',
       imports: [
