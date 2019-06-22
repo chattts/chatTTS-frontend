@@ -71,12 +71,14 @@
   import { IGetYoutubeLiveChatId, IGetYoutubeLiveChatIdData, ISuccessPacket } from '~/assets/types'
   import { RestURLBuilder } from 'rest-url-builder'
   import Queue from '~/assets/class/queue'
+  import PreProcessor from '~/assets/class/preprocessor'
 
   import ChatBubble from '~/components/ChatBubble.vue'
 
   import ChatData from '~/assets/class/chat'
 
   import { Toast } from 'buefy/dist/components/toast'
+import preprocessor from '~/assets/class/preprocessor';
 
   @Component({
     components: {
@@ -97,6 +99,10 @@
     }
     @Watch('getUser')
 
+    get getWSURL(): string {
+      return process.env.wsURL!
+    }
+
     async getYoutubeLiveId() {
       if (!this.getUser.id || !this.getUser.auth.google.id) {
         Toast.open({
@@ -110,7 +116,7 @@
 
       const data: AxiosResponse<IGetYoutubeLiveChatId> = await axios({
         method: 'GET',
-        url: `${process.env.apiURL}api/getYoutubeLiveChatId`,
+        url: `${this.getWSURL}api/getYoutubeLiveChatId`,
         withCredentials: true
       })
 
@@ -174,7 +180,7 @@
 
             if (data && !synth.speaking && data.status == 'wait') {
               data.changeStatus('reading')
-              const utterThis = new SpeechSynthesisUtterance(data.message)
+              const utterThis = new SpeechSynthesisUtterance(preprocessor.processMessage(data.message, data.emotes))
 
               utterThis.voice = synth.getVoices()[0]
               utterThis.pitch = 1.2
@@ -183,6 +189,7 @@
               synth.speak(utterThis)
 
               utterThis.onend = (event) => {
+                console.log(event)
                 data.changeStatus('read')
                 this.queue.remove(0)
               }

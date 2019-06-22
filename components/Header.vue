@@ -109,7 +109,7 @@
         return this.$store.getters['oauth/getUser']
       },
       getApiURL() {
-        return process.env.apiURL!
+        return process.env.apiURL
       }
     }
   })
