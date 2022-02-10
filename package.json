@@ -46,7 +46,7 @@
     "@nuxt/typescript": "^2.7.1",
     "@types/dotenv": "^6.1.1",
     "lazy-get-decorator": "^2.2.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^7.1.0",
